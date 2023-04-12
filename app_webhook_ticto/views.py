@@ -17,10 +17,13 @@ def nova_ordem(request):
         return JsonResponse({"api": "-"})
 
     elif request.method == "POST":
-        data = json.dumps(request.POST)
-        data = json.loads(data)
-        print(data, type(data))
-        return JsonResponse(data)
+        try:
+            data = json.loads(request.body)
+            print(data)
+            return JsonResponse(data)
+        except Exception as e:
+            print(e)
+            return JsonResponse({"code": "500", "msg": "falha ao processar (webhook)"})
 
 
 
