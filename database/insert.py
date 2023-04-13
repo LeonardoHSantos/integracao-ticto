@@ -63,7 +63,7 @@ def insert_database(data):
             else:
                 # calcular datas
                 expiration_result_query = result_query[0][0]
-                new_expiration = plan_expiration_dt + timedelta(days= abs(dt_timenow - expiration_result_query).days )
+                new_expiration = plan_expiration_dt + timedelta(days= abs(dt_timenow - expiration_result_query).days +1 )
 
                 print("#### CLIENTE - EXISTENTE #### ")
                 print(" **************** DATAS **************** ")
