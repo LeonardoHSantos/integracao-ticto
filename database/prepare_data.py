@@ -13,11 +13,13 @@ def prepapre_date(data):
     order_status = data["status"]
 
     periodo_dias = 0
-    if _product_name == "1 ano":
+    if _product_name == "Tecnologia Z - Plano Anual":
         periodo_dias = 366
-    elif _product_name == "3 meses":
+    elif _product_name == "Tecnologia Z - Plano Semestral":
+        periodo_dias = 183
+    elif _product_name == "Tecnologia Z - Plano Trimestral":
         periodo_dias = 91
-    elif _product_name == "1 mes":
+    elif _product_name == "Tecnologia Z - Plano Mensal":
         periodo_dias = 31
     
     if order_status == "paid":
