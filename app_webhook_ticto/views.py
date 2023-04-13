@@ -1,5 +1,5 @@
 import json
-import bcrypt
+import bcrypt, os
 from datetime import datetime, timedelta
 
 
@@ -108,16 +108,17 @@ def prepapre_date(data):
     _username = data["customer"]["name"]
     _password = "123456"
     _password_hash_4 = bcrypt.hashpw(_password.encode("utf8"), bcrypt.gensalt()).decode("utf-8")
-    _status = data["status"]
+    order_status = data["status"]
     _token = data["token"]
+    _token_os = os.urandom(50).hex()
     _plan_started_at = datetime.now().replace(hour=0, minute=0, second=0).strftime("%Y-%m-%d %H:%M:%S")
     _plan_expiration = datetime.strftime((datetime.now().replace(hour=0, minute=0, second=0) + timedelta(days=366)), "%Y-%m-%d %H:%M:%S")
     obj_database = {
         "useremail": _useremail,
         "username": _username,
         "_password_hash_4": _password_hash_4,
-        "status": _status,
-        "token": _token,
+        "order_status": order_status,
+        "token": _token_os,
         "plan_started_at": _plan_started_at,
         "plan_expiration": _plan_expiration,
     }
