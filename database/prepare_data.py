@@ -32,7 +32,7 @@ def prepapre_date(data):
 
 
 def process_chargedback(data, process_name, periodo_dias):
-    dt_timenow = datetime_now(tzone="America/Sao Paulo")
+    dt_timenow = datetime_now(tzone="UTC-3")
     updated_at =  datetime.strftime((dt_timenow), "%Y-%m-%d %H:%M:%S")
     updated_at_dt =  datetime.strptime(updated_at, "%Y-%m-%d %H:%M:%S")
 
@@ -54,7 +54,7 @@ def process_chargedback(data, process_name, periodo_dias):
 
 
 def process_paid(data, process_name, periodo_dias):
-    dt_timenow = datetime_now(tzone="America/Sao Paulo")
+    dt_timenow = datetime_now(tzone="UTC-3")
     _payment_method = data["payment_method"]
     # ---------------------------------------------
     _useremail = data["customer"]["email"]

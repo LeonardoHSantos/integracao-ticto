@@ -3,7 +3,9 @@ from datetime import datetime, timedelta
 
 from database.conn import conn_db
 
-
+from dateutil import tz
+def datetime_now(tzone):
+    return datetime.now(tz=tz.gettz(tzone))
 
 def process_database(data):
     if data["process_name"] == "paid":
@@ -63,7 +65,8 @@ def insert_database(data):
             else:
                 # calcular datas
                 expiration_result_query = result_query[0][0]
-                new_expiration = plan_expiration_dt + timedelta(days= abs(dt_timenow - expiration_result_query).days +1 )
+                dt = datetime_now(tzone="America/Sao Paulo")
+                new_expiration = plan_expiration_dt + timedelta(days=abs(dt - expiration_result_query).days + 1 )
 
                 print("#### CLIENTE - EXISTENTE #### ")
                 print(" **************** DATAS **************** ")
@@ -147,16 +150,21 @@ def update_chargeback_database(data):
                 print("#### CLIENTE - EXISTENTE #### ")
                 expiration_result_query = result_query[0][0]
                 
-                new_expiration = expiration_result_query - timedelta( days= periodo_dias )
-                if new_expiration <= dt_timenow:
-                    new_expiration = dt_timenow.replace(hour=0, minute=0, second=0, tzinfo=None)
+                try:
+                    dt = datetime_now(tzone="America/Sao Paulo")
+                    new_expiration = expiration_result_query - timedelta( days = periodo_dias)
+                    if new_expiration <= dt:
+                        new_expiration = dt.replace(hour=0, minute=0, second=0)
+                    
+                    print("#### CLIENTE - EXISTENTE #### ")
+                    print(" **************** DATAS **************** ")
+                    print(f"DT-NOW: {updated_at}")
 
-                print("#### CLIENTE - EXISTENTE #### ")
-                print(" **************** DATAS **************** ")
-                print(f"DT-NOW: {updated_at}")
-
-                print(f"expiration_result_query: {expiration_result_query}")
-                print(f"new_expiration: {new_expiration}")
+                    print(f"expiration_result_query: {expiration_result_query}")
+                    print(f"new_expiration: {new_expiration}")
+                
+                except Exception as e:
+                    print(f"CHARGEBACK | Error: {e}")
 
                 comando_update = f"""
                 UPDATE {TABLE_NAME} SET
