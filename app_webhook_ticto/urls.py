@@ -7,9 +7,15 @@ urlpatterns = [
     path("Venda-Recusada/", views.Venda_Recusada, name="Venda_Recusada"),
     path("Chargeback/", views.Chargeback, name="Chargeback"),
     path("Reembolso/", views.Reembolso, name="Reembolso"),
-    path("Encerrado/", views.Encerrado, name="Encerrado"),
     path("Assinatura-Cancelada/", views.Assinatura_Cancelada, name="Assinatura_Cancelada"),
     path("Tempo-de-Teste/", views.Tempo_de_Teste, name="Tempo_de_Teste"),
+
+# Venda_Realizada
+# Venda_Recusada
+# Chargeback
+# Reembolso
+# Assinatura_Cancelada
+# Tempo_de_Teste
 ]
 # Abandono de Carrinho
 # Tempo de Teste
