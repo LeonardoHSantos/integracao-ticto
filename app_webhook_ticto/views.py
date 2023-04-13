@@ -1,7 +1,6 @@
 import json
-import bcrypt, os
-from datetime import datetime, timedelta
-
+from database.prepare_data import prepapre_date
+from database.insert import process_database
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -64,8 +63,10 @@ def Venda_Realizada(request):
             data = json.loads(request.body)
             print(f"---> Venda_Realizada:\n")
             print(data)
+            
             print(" <<<<<<<<<<<< obj_database >>>>>>>>>>>> ")
             obj_database = prepapre_date(data)
+            process_database(data=obj_database)
             print(obj_database)
             return JsonResponse(data)
         except Exception as e:
@@ -98,29 +99,5 @@ def Venda_Recusada(request):
             print(f"#### Error | Venda_Recusada: {e}")
             return JsonResponse({"code": "500", "msg": e, "local": "Venda_Recusada"})
 
-def prepapre_date(data):
-    _payment_method = data["payment_method"]
-    # ---------------------------------------------
-    _product_id = data["item"]["product_id"]
-    _product_name = data["item"]["product_name"]
-    # ---------------------------------------------
-    _useremail = data["customer"]["email"]
-    _username = data["customer"]["name"]
-    _password = "123456"
-    _password_hash_4 = bcrypt.hashpw(_password.encode("utf8"), bcrypt.gensalt()).decode("utf-8")
-    order_status = data["status"]
-    _token = data["token"]
-    _token_os = os.urandom(50).hex()
-    _plan_started_at = datetime.now().replace(hour=0, minute=0, second=0).strftime("%Y-%m-%d %H:%M:%S")
-    _plan_expiration = datetime.strftime((datetime.now().replace(hour=0, minute=0, second=0) + timedelta(days=366)), "%Y-%m-%d %H:%M:%S")
-    obj_database = {
-        "useremail": _useremail,
-        "username": _username,
-        "_password_hash_4": _password_hash_4,
-        "order_status": order_status,
-        "token": _token_os,
-        "plan_started_at": _plan_started_at,
-        "plan_expiration": _plan_expiration,
-    }
-    return obj_database
+
 
