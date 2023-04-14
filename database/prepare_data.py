@@ -10,56 +10,59 @@ def datetime_now(tzone):
 
 def prepapre_date(data, process_name):
     # ---------------------------------------------
-    _product_name = data["item"]["product_name"]
-    order_status = data["status"]
+    _product_id     = data["item"]["product_id"]
+    _product_name   = data["item"]["product_name"]
+    order_status    = data["status"]
     
     periodo_dias = 0
-    lista_planos = ["Tecnologia Z - Plano Anual", "Tecnologia Z - Plano Semestral", "Tecnologia Z - Plano Trimestral", "Tecnologia Z - Plano Mensal"]
-    if _product_name == "Tecnologia Z - Plano Anual":
+    lista_planos_ids = [13926, 13925, 13908, 13907]
+    # ["Tecnologia Z - Plano Anual", "Tecnologia Z - Plano Semestral", "Tecnologia Z - Plano Trimestral", "Tecnologia Z - Plano Mensal"]
+    
+    if _product_id == 13926: # "Tecnologia Z - Plano Anual"
         periodo_dias = 366
-    elif _product_name == "Tecnologia Z - Plano Semestral":
+    elif _product_id == 13925: # "Tecnologia Z - Plano Semestral"
         periodo_dias = 183
-    elif _product_name == "Tecnologia Z - Plano Trimestral":
+    elif _product_id == 13908: # "Tecnologia Z - Plano Trimestral"
         periodo_dias = 91
-    elif _product_name == "Tecnologia Z - Plano Mensal":
+    elif _product_id ==  13907: #"Tecnologia Z - Plano Mensal"
         periodo_dias = 30
     
     print(f"**************  _product_name: {_product_name} | periodo_dias: {periodo_dias}")
     # ----------------------------------------------------------------------------------------------
-    if process_name == "paid" and _product_name == "Receba o Dobro de Sinais Diariamente":
+    if process_name == "paid" and _product_id == 13965: # "Receba o Dobro de Sinais Diariamente":
         data_db = process_paid_services(data=data, process_name=process_name)
         insert.insert_database_services(
             data=data_db["data"],
             service_name="extra_signs",
             status_service=1)
     # ---------
-    elif process_name == "chargeback" and _product_name == "Receba o Dobro de Sinais Diariamente":
+    elif process_name == "chargeback" and _product_id == 13965: # "Receba o Dobro de Sinais Diariamente":
         data_db =  process_chargeback_services(data=data)
         insert.update_chargeback_database_services(
             data=data_db["data"],
             service_name="extra_signs",
             status_service=0)
     # -----------------------------------------------------
-    elif process_name == "paid" and _product_name == "Automatize suas Operações":
+    elif process_name == "paid" and _product_id == 13964: # "Automatize suas Operações":
         data_db = process_paid_services(data=data, process_name=process_name)
         insert.insert_database_services(
             data=data_db["data"],
             service_name="automatic_robot",
             status_service=1)
-    elif process_name == "chargeback" and _product_name == "Automatize suas Operações":
+    elif process_name == "chargeback" and _product_id == 13964: # "Automatize suas Operações":
         data_db =  process_chargeback_services(data=data)
         insert.update_chargeback_database_services(
             data=data_db["data"],
             service_name="automatic_robot",
             status_service=0)
     # ----------------------------------------------------------------------------------------------
-    elif process_name == "paid" and _product_name == "Paienl de Controle":
+    elif process_name == "paid" and _product_id ==  13969: #"Paienl de Controle"
         data_db = process_paid_services(data=data, process_name=process_name)
         insert.insert_database_services(
             data=data_db["data"],
             service_name="control_panel",
             status_service=1)
-    elif process_name == "chargeback" and _product_name == "Paienl de Controle":
+    elif process_name == "chargeback" and _product_id == 13969: # "Paienl de Controle"
         data_db =  process_chargeback_services(data=data)
         insert.update_chargeback_database_services(
             data=data_db["data"],
@@ -67,10 +70,10 @@ def prepapre_date(data, process_name):
             status_service=0)
     # ----------------------------------------------------------------------------------------------
 
-    elif process_name == "paid" and _product_name in lista_planos:
+    elif process_name == "paid" and _product_id in lista_planos_ids:
         data_db = process_paid(data=data, process_name=process_name, periodo_dias=periodo_dias)
         insert.insert_database(data=data_db["data"])
-    elif process_name == "chargeback" and _product_name in lista_planos:
+    elif process_name == "chargeback" and _product_id in lista_planos_ids:
         data_db =  process_chargeback(data=data, process_name=order_status, periodo_dias=periodo_dias)
         insert.update_chargeback_database(data=data_db["data"])
 
