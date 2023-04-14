@@ -1,6 +1,5 @@
 import json
 from database.prepare_data import prepapre_date
-from database.insert import process_database
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -66,7 +65,6 @@ def Venda_Realizada(request):
             
             print(" <<<<<<<<<<<< obj_database >>>>>>>>>>>> ")
             obj_database = prepapre_date(data=data, process_name="paid")
-            process_database(data=obj_database, process_name="paid")
             print(obj_database)
             return JsonResponse(data)
         except Exception as e:
@@ -85,7 +83,6 @@ def Chargeback(request):
             
             print(" <<<<<<<<<<<< obj_database | CHARGEBACK >>>>>>>>>>>> ")
             obj_database = prepapre_date(data=data, process_name="chargeback")
-            process_database(data=obj_database, process_name="chargeback")
             print(obj_database)
             return JsonResponse(data)
         except Exception as e:
