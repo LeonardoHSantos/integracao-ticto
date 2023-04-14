@@ -6,9 +6,8 @@ def datetime_now(tzone):
     return datetime.now(tz=tz.gettz(tzone))
 
 
-def prepapre_date(data):
+def prepapre_date(data, process_name):
     # ---------------------------------------------
-    _product_id = data["item"]["product_id"]
     _product_name = data["item"]["product_name"]
     order_status = data["status"]
 
@@ -22,16 +21,21 @@ def prepapre_date(data):
     elif _product_name == "Tecnologia Z - Plano Mensal":
         periodo_dias = 31
     
-    if order_status == "paid":
-        return process_paid(data=data, process_name=order_status, periodo_dias=periodo_dias)
-    elif order_status == "waiting_payment":
-        return process_paid(data=data, process_name=order_status, periodo_dias=periodo_dias)
-    elif order_status == "chargeback":
-        return process_chargedback(data=data, process_name=order_status, periodo_dias=periodo_dias)
+    print(f"**************  _product_name: {_product_name} | periodo_dias: {periodo_dias}")
+
+    if process_name == "paid":
+        return process_paid(data=data, process_name=process_name, periodo_dias=periodo_dias)
+    elif process_name == "chargeback":
+        return process_chargeback(data=data, process_name=order_status, periodo_dias=periodo_dias)
+
+    
+    # elif order_status == "waiting_payment":
+    #     return process_paid(data=data, process_name=order_status, periodo_dias=periodo_dias)
     # elif order_status == "refused":
 
 
-def process_chargedback(data, process_name, periodo_dias):
+def process_chargeback(data, process_name, periodo_dias):
+    process_name = "chargeback"
     dt_timenow = datetime_now(tzone="UTC-3")
     updated_at =  datetime.strftime((dt_timenow), "%Y-%m-%d %H:%M:%S")
     updated_at_dt =  datetime.strptime(updated_at, "%Y-%m-%d %H:%M:%S")
@@ -49,14 +53,16 @@ def process_chargedback(data, process_name, periodo_dias):
         "dt_timenow": dt_timenow,
         "updated_at_dt": updated_at_dt,
         "periodo_dias": periodo_dias,
+        "process_name": process_name,
     }
     return {"process_name": process_name, "data": obj_database}
 
 
 def process_paid(data, process_name, periodo_dias):
+    process_name = "paid"
     dt_timenow = datetime_now(tzone="UTC-3")
-    _payment_method = data["payment_method"]
     # ---------------------------------------------
+
     _useremail = data["customer"]["email"]
     _username = data["customer"]["name"]
     _password = "123456"
@@ -81,5 +87,6 @@ def process_paid(data, process_name, periodo_dias):
         "updated_at": updated_at,
         "dt_timenow": dt_timenow,
         "_plan_expiration_dt": _plan_expiration_dt,
+        "process_name": process_name,
     }
     return {"process_name": process_name, "data": obj_database}

@@ -7,10 +7,8 @@ from dateutil import tz
 def datetime_now(tzone):
     return datetime.now(tz=tz.gettz(tzone))
 
-def process_database(data):
+def process_database(data, process_name):
     if data["process_name"] == "paid":
-        return insert_database(data["data"])
-    elif data["process_name"] == "waiting_payment":
         return insert_database(data["data"])
     elif data["process_name"] == "chargeback":
         return update_chargeback_database(data["data"])
@@ -36,6 +34,7 @@ def insert_database(data):
             updated_at           = data["updated_at"]
             dt_timenow          = data["dt_timenow"]
             plan_expiration_dt  = data["_plan_expiration_dt"]
+            process_name        = data["process_name"]
 
 
             comando_query = f"""SELECT plan_expiration from {TABLE_NAME} WHERE useremail = "{useremail}" """
@@ -55,7 +54,7 @@ def insert_database(data):
                     (useremail, username, password, token, order_status, plan_started_at, plan_expiration, updated_at)
                 VALUES
                     (
-                        "{useremail}", "{username}", "{password_hash_4}", "{token}", "{order_status}", "{plan_started_at}", "{plan_expiration}", "{updated_at}"
+                        "{useremail}", "{username}", "{password_hash_4}", "{token}", "{process_name}", "{plan_started_at}", "{plan_expiration}", "{updated_at}"
                     )"""
                 print(comando_insert)
                 cursor.execute(comando_insert)
@@ -77,7 +76,7 @@ def insert_database(data):
 
                 comando_update = f"""
                 UPDATE {TABLE_NAME} SET
-                    order_status = "{order_status}",
+                    order_status = "{process_name}",
                     free_trial = {free_trial},
                     plan_expiration = "{new_expiration}",
                     updated_at = "{updated_at}"
@@ -118,9 +117,8 @@ def update_chargeback_database(data):
             plan_expiration     = data["plan_expiration"]
             free_trial          = data["free_trial"]
             updated_at          = data["updated_at"]
-            dt_timenow          = data["dt_timenow"]
-            updated_at_dt       = data["updated_at_dt"]
             periodo_dias        = data["periodo_dias"]
+            process_name        = data["process_name"]
 
             comando_query = f"""SELECT plan_expiration from {TABLE_NAME} WHERE useremail = "{useremail}" """
             cursor.execute(comando_query)
@@ -139,7 +137,7 @@ def update_chargeback_database(data):
                     (useremail, username, order_status, plan_expiration, free_trial, updated_at)
                 VALUES
                     (
-                        "{useremail}", "{username}", "{order_status}", "{plan_expiration}", {free_trial}, "{updated_at}"
+                        "{useremail}", "{username}", "{process_name}", "{plan_expiration}", {free_trial}, "{updated_at}"
                     )"""
                 print(comando_insert)
                 cursor.execute(comando_insert)
@@ -168,7 +166,7 @@ def update_chargeback_database(data):
 
                 comando_update = f"""
                 UPDATE {TABLE_NAME} SET
-                    order_status = "{order_status}",
+                    order_status = "{process_name}",
                     plan_expiration = "{new_expiration}",
                     free_trial = {free_trial},
                     updated_at = "{updated_at}"

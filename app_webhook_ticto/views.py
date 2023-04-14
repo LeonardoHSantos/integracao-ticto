@@ -65,8 +65,8 @@ def Venda_Realizada(request):
             print(data)
             
             print(" <<<<<<<<<<<< obj_database >>>>>>>>>>>> ")
-            obj_database = prepapre_date(data)
-            process_database(data=obj_database)
+            obj_database = prepapre_date(data=data, process_name="paid")
+            process_database(data=obj_database, process_name="paid")
             print(obj_database)
             return JsonResponse(data)
         except Exception as e:
@@ -80,11 +80,17 @@ def Chargeback(request):
     elif request.method == "POST":
         try:
             data = json.loads(request.body)
-            print(f"---> Chargeback:\n {data}")
+            print(f"---> Venda_Realizada:\n")
+            print(data)
+            
+            print(" <<<<<<<<<<<< obj_database | CHARGEBACK >>>>>>>>>>>> ")
+            obj_database = prepapre_date(data=data, process_name="chargeback")
+            process_database(data=obj_database, process_name="chargeback")
+            print(obj_database)
             return JsonResponse(data)
         except Exception as e:
-            print(f"#### Error | Chargeback: {e}")
-            return JsonResponse({"code": "500", "msg": e, "local": "Chargeback"})
+            print(f"#### Error | Venda_Realizada: {e}")
+            return JsonResponse({"code": "500", "msg": e, "local": "Venda_Realizada"})
 
 @csrf_exempt
 def Venda_Recusada(request):
