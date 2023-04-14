@@ -65,7 +65,7 @@ def insert_database(data):
             else:
                 # calcular datas
                 expiration_result_query = result_query[0][0]
-                dt = datetime_now(tzone="America/Sao Paulo")
+                dt = datetime.now()
                 new_expiration = plan_expiration_dt + timedelta(days=abs(dt - expiration_result_query).days + 1 )
 
                 print("#### CLIENTE - EXISTENTE #### ")
@@ -151,7 +151,7 @@ def update_chargeback_database(data):
                 expiration_result_query = result_query[0][0]
                 
                 try:
-                    dt = datetime_now(tzone="America/Sao Paulo")
+                    dt = datetime.now()
                     new_expiration = expiration_result_query - timedelta( days = periodo_dias)
                     if new_expiration <= dt:
                         new_expiration = dt.replace(hour=0, minute=0, second=0)
