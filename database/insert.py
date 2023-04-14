@@ -150,7 +150,7 @@ def update_chargeback_database(data):
                 
                 try:
                     dt = datetime.now()
-                    new_expiration = expiration_result_query - timedelta( days = periodo_dias)
+                    new_expiration = expiration_result_query - timedelta( days = periodo_dias + 1)
                     if new_expiration <= dt:
                         new_expiration = dt.replace(hour=0, minute=0, second=0)
                     

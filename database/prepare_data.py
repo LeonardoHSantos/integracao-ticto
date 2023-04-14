@@ -19,7 +19,7 @@ def prepapre_date(data, process_name):
     elif _product_name == "Tecnologia Z - Plano Trimestral":
         periodo_dias = 91
     elif _product_name == "Tecnologia Z - Plano Mensal":
-        periodo_dias = 31
+        periodo_dias = 30
     
     print(f"**************  _product_name: {_product_name} | periodo_dias: {periodo_dias}")
 
