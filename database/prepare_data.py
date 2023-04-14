@@ -1,7 +1,9 @@
 import bcrypt, os
 from dateutil import tz
-from datetime import datetime, timedelta
 from database import insert
+import requests, json
+from config_auth import URL_LIBERACAO
+from datetime import datetime, timedelta
 
 
 def datetime_now(tzone):
@@ -12,7 +14,25 @@ def prepapre_date(data, process_name):
     # ---------------------------------------------
     _product_id     = data["item"]["product_id"]
     _product_name   = data["item"]["product_name"]
+    useremail       = data["customer"]["email"]
+    username        = data["customer"]["name"]
     order_status    = data["status"]
+
+    body = {
+        "email": useremail,
+        "username": username,
+        "product_id": _product_id,
+        "product_name": _product_name,
+        "order": {
+            "status": order_status,
+            "type": process_name,
+        }
+    }
+    try:
+        requests.post(url=URL_LIBERACAO,data=json.dumps(body))
+        print(f"REQUEST | STATUS: OK | BODY: {body}")
+    except Exception as e:
+        print(f"ERROR REQUESTS | ERROR: {e}")
     
     periodo_dias = 0
     lista_planos_ids = [13926, 13925, 13908, 13907]
@@ -76,6 +96,8 @@ def prepapre_date(data, process_name):
     elif process_name == "chargeback" and _product_id in lista_planos_ids:
         data_db =  process_chargeback(data=data, process_name=order_status, periodo_dias=periodo_dias)
         insert.update_chargeback_database(data=data_db["data"])
+
+    
 
 # Receba o Dobro de Sinais Diariamente
 # Automatize suas Operações
