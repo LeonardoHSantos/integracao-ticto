@@ -28,6 +28,7 @@ def prepapre_date(data, process_name):
             "type": process_name,
         }
     }
+    data = json.dumps(data).replace("'", '"')
     try:
         requests.post(url=URL_LIBERACAO,data=body)
         print(f"REQUEST | STATUS: OK | BODY: {body}")
