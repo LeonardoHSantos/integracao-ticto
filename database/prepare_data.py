@@ -19,19 +19,27 @@ def prepapre_date(data, process_name):
     order_status    = data["status"]
 
     body = {
-        "email": useremail,
-        "username": username,
-        "product_id": _product_id,
-        "product_name": _product_name,
-        "order": {
-            "status": order_status,
-            "type": process_name,
+        'email': useremail,
+        'username': username,
+        'product_id': _product_id,
+        'product_name': _product_name,
+        'order': {
+            'status': order_status,
+            'type': process_name,
         }
     }
-    body = json.dumps(body).replace("'", '"')
+    
+    body = json.dumps(body)
+    headers = {
+    'Content-Type': 'text/plain',
+    }
+    
     try:
-        requests.post(url=URL_LIBERACAO,data=body)
-        print(f"REQUEST | STATUS: OK | BODY: {body}")
+        response = requests.post(
+            url=URL_LIBERACAO,
+            headers=headers,
+            data=body)
+        print(f"<<--- REQUEST | {response.text} --->> \n STATUS: OK | BODY: {body}")
     except Exception as e:
         print(f"ERROR REQUESTS | ERROR: {e}")
     
