@@ -29,7 +29,7 @@ def prepapre_date(data, process_name):
         }
     }
     try:
-        requests.post(url=URL_LIBERACAO,data=json.dumps(body))
+        requests.post(url=URL_LIBERACAO,data=body)
         print(f"REQUEST | STATUS: OK | BODY: {body}")
     except Exception as e:
         print(f"ERROR REQUESTS | ERROR: {e}")
