@@ -44,16 +44,25 @@ def prepapre_date(data, process_name):
         print(f"ERROR REQUESTS | ERROR: {e}")
     
     periodo_dias = 0
-    lista_planos_ids = [13926, 13925, 13908, 13907]
+    lista_planos_ids = [
+        # planos originais
+        13926, 13925, 13908, 13907,
+
+        # planos de quinta-feira
+        16258, # Plano Anual - Tecnologia Z!
+        16269, # Plano Semestral - Tecnologia Z!
+        16271, # Plano Trimestral - Tecnologia Z!
+        16274, # Plano Mensal - Tecnologia Z!
+        ]
     # ["Tecnologia Z - Plano Anual", "Tecnologia Z - Plano Semestral", "Tecnologia Z - Plano Trimestral", "Tecnologia Z - Plano Mensal"]
     
-    if _product_id == 13926: # "Tecnologia Z - Plano Anual"
+    if _product_id in [13926, 16258]: # "Tecnologia Z - Plano Anual"
         periodo_dias = 366
-    elif _product_id == 13925: # "Tecnologia Z - Plano Semestral"
+    elif _product_id in [13925, 16269]: # "Tecnologia Z - Plano Semestral"
         periodo_dias = 183
-    elif _product_id == 13908: # "Tecnologia Z - Plano Trimestral"
+    elif _product_id in [13908, 16271]: # "Tecnologia Z - Plano Trimestral"
         periodo_dias = 91
-    elif _product_id ==  13907: #"Tecnologia Z - Plano Mensal"
+    elif _product_id in [13907, 16274]: #"Tecnologia Z - Plano Mensal"
         periodo_dias = 30
     
     print(f"**************  _product_name: {_product_name} | periodo_dias: {periodo_dias}")
