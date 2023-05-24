@@ -57,13 +57,13 @@ def prepapre_date(data, process_name):
     # ["Tecnologia Z - Plano Anual", "Tecnologia Z - Plano Semestral", "Tecnologia Z - Plano Trimestral", "Tecnologia Z - Plano Mensal"]
     
     if _product_id in [13926, 16258]: # "Tecnologia Z - Plano Anual"
-        periodo_dias = 366
+        periodo_dias = 366 + 7
     elif _product_id in [13925, 16269]: # "Tecnologia Z - Plano Semestral"
-        periodo_dias = 183
+        periodo_dias = 183 + 7
     elif _product_id in [13908, 16271]: # "Tecnologia Z - Plano Trimestral"
-        periodo_dias = 91
+        periodo_dias = 91 + 7
     elif _product_id in [13907, 16274]: #"Tecnologia Z - Plano Mensal"
-        periodo_dias = 30
+        periodo_dias = 30 + 7
     
     print(f"**************  _product_name: {_product_name} | periodo_dias: {periodo_dias}")
     # ----------------------------------------------------------------------------------------------
