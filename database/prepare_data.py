@@ -67,27 +67,27 @@ def prepapre_date(data, process_name):
     
     print(f"**************  _product_name: {_product_name} | periodo_dias: {periodo_dias}")
     # ----------------------------------------------------------------------------------------------
-    if process_name == "paid" and _product_id == 13965: # "Receba o Dobro de Sinais Diariamente":
+    if process_name == "paid" and _product_id in [15483, 13965]: # "Receba o Dobro de Sinais Diariamente":
         data_db = process_paid_services(data=data, process_name=process_name)
         insert.insert_database_services(
             data=data_db["data"],
             service_name="extra_signs",
             status_service=1)
     # ---------
-    elif process_name == "chargeback" and _product_id == 13965: # "Receba o Dobro de Sinais Diariamente":
+    elif process_name == "chargeback" and _product_id in [15483, 13965]: # "Receba o Dobro de Sinais Diariamente":
         data_db =  process_chargeback_services(data=data)
         insert.update_chargeback_database_services(
             data=data_db["data"],
             service_name="extra_signs",
             status_service=0)
     # -----------------------------------------------------
-    elif process_name == "paid" and _product_id == 13964: # "Automatize suas Operações":
+    elif process_name == "paid" and _product_id in [16138, 13964]: # Automação - Tecnologia Z --- # "Automatize suas Operações":
         data_db = process_paid_services(data=data, process_name=process_name)
         insert.insert_database_services(
             data=data_db["data"],
             service_name="automatic_robot",
             status_service=1)
-    elif process_name == "chargeback" and _product_id == 13964: # "Automatize suas Operações":
+    elif process_name == "chargeback" and _product_id in [16138, 13964]: # Automação - Tecnologia Z --- # "Automatize suas Operações":
         data_db =  process_chargeback_services(data=data)
         insert.update_chargeback_database_services(
             data=data_db["data"],
