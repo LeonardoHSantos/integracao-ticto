@@ -45,36 +45,46 @@ def prepapre_date(data, process_name):
     
     periodo_dias = 0
     lista_planos_ids = [
-        # planos originais
-        13926, 13925, 13908, 13907,
-
-        # planos de quinta-feira
-        16258, # Plano Anual - Tecnologia Z!
-        16269, # Plano Semestral - Tecnologia Z!
-        16271, # Plano Trimestral - Tecnologia Z!
-        16274, # Plano Mensal - Tecnologia Z!
-        ]
-    # ["Tecnologia Z - Plano Anual", "Tecnologia Z - Plano Semestral", "Tecnologia Z - Plano Trimestral", "Tecnologia Z - Plano Mensal"]
-    
-    if _product_id in [13926, 16258]: # "Tecnologia Z - Plano Anual"
+        21558, # Plano Mensal - Tecnologia Z!
+        21469, # Plano Mensal - Tecnologia Z!
+        21473, # Plano Trimestral - Tecnologia Z!
+        21559, # Plano Trimestral - Tecnologia Z!
+        21561, # Tecnologia Z - Plano Semestral
+        21480, # Plano Semestral - Tecnologia Z!
+        21475, # Plano anual
+        21563, # Tecnologia Z - Plano Anual
+        21481, # Plano Anual - Tecnologia Z!
+    ]
+        
+    if _product_id in [21475, 21563, 21481]: # "Tecnologia Z - Plano Anual"
         periodo_dias = 366 + 7
-    elif _product_id in [13925, 16269]: # "Tecnologia Z - Plano Semestral"
+        # 21475 Plano anual
+        # 21563 Tecnologia Z - Plano Anual
+        # 21481 Plano Anual - Tecnologia Z!
+    elif _product_id in [21561, 21480]: # "Tecnologia Z - Plano Semestral"
         periodo_dias = 183 + 7
-    elif _product_id in [13908, 16271]: # "Tecnologia Z - Plano Trimestral"
+        # 21561 Tecnologia Z - Plano Semestral
+        # 21480 Plano Semestral - Tecnologia Z!
+    elif _product_id in [21473, 21559]: # "Tecnologia Z - Plano Trimestral"
         periodo_dias = 91 + 7
-    elif _product_id in [13907, 16274]: #"Tecnologia Z - Plano Mensal"
+        # 21473 Plano Trimestral - Tecnologia Z!
+        # 21559 Plano Trimestral - Tecnologia Z!
+    elif _product_id in [21558, 21469]: #"Tecnologia Z - Plano Mensal"
         periodo_dias = 30 + 7
+        # 21558 Plano Mensal - Tecnologia Z!
+        # 21469 Plano Mensal - Tecnologia Z!
     
     print(f"**************  _product_name: {_product_name} | periodo_dias: {periodo_dias}")
     # ----------------------------------------------------------------------------------------------
-    if process_name == "paid" and _product_id in [15483, 13965]: # "Receba o Dobro de Sinais Diariamente":
+    if process_name == "paid" and _product_id in [21483, 13965]: # "Receba o Dobro de Sinais Diariamente":
+        # 21483 Receba o Dobro de Sinais Diariamente
         data_db = process_paid_services(data=data, process_name=process_name)
         insert.insert_database_services(
             data=data_db["data"],
             service_name="extra_signs",
             status_service=1)
     # ---------
-    elif process_name == "chargeback" and _product_id in [15483, 13965]: # "Receba o Dobro de Sinais Diariamente":
+    elif process_name == "chargeback" and _product_id in [21483, 13965]: # "Receba o Dobro de Sinais Diariamente":
         data_db =  process_chargeback_services(data=data)
         insert.update_chargeback_database_services(
             data=data_db["data"],
@@ -87,20 +97,23 @@ def prepapre_date(data, process_name):
             data=data_db["data"],
             service_name="automatic_robot",
             status_service=1)
-    elif process_name == "chargeback" and _product_id in [16138, 13964]: # Automação - Tecnologia Z --- # "Automatize suas Operações":
+    elif process_name == "chargeback" and _product_id in [21564, 21478]: # Automação - Tecnologia Z --- # "Automatize suas Operações":
+        # 21564 Automação - Tecnologia Z
+        # 21478 Automação - Tecnologia Z!
         data_db =  process_chargeback_services(data=data)
         insert.update_chargeback_database_services(
             data=data_db["data"],
             service_name="automatic_robot",
             status_service=0)
     # ----------------------------------------------------------------------------------------------
-    elif process_name == "paid" and _product_id ==  13969: #"Paienl de Controle"
+    elif process_name == "paid" and _product_id in  [13969, 21485]: #"Paienl de Controle" #  RECUPERE SEU DINHEIRO EM 24 HORAS!
+        # 21485 RECUPERE SEU DINHEIRO EM 24 HORAS!
         data_db = process_paid_services(data=data, process_name=process_name)
         insert.insert_database_services(
             data=data_db["data"],
             service_name="control_panel",
             status_service=1)
-    elif process_name == "chargeback" and _product_id == 13969: # "Paienl de Controle"
+    elif process_name == "chargeback" and _product_id in [13969, 21485]: # "Paienl de Controle"
         data_db =  process_chargeback_services(data=data)
         insert.update_chargeback_database_services(
             data=data_db["data"],
